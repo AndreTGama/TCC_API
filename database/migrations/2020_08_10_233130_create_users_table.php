@@ -24,12 +24,12 @@ class CreateUsersTable extends Migration
             $table->foreign('documents_id_document')
                   ->references('id_document')
                   ->on('documents')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
             $table->unsignedBigInteger('addresses_id_address');
             $table->foreign('addresses_id_address')
                   ->references('id_address')
                   ->on('addresses')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
             $table->boolean('active')->default(1);
             $table->timestamps();
 
