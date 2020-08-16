@@ -22,6 +22,12 @@ class LoginController extends Controller
     {
         //
     }
+    /**
+     * loginUser
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function loginUser(Request $request)
 	{
         $usersDAO = new UsersDAO();
@@ -37,7 +43,6 @@ class LoginController extends Controller
 		$login = $data['login'];
         $password = $data['password'];
 
-
 		if (empty($login) || empty($password)) return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
 
         $user = $usersDAO->verifyLogin($login,true);
@@ -45,7 +50,6 @@ class LoginController extends Controller
         if(!$user) return ReturnMessage::messageReturn(true,'Usuário/Senha inválido',null,null, null);
 
 		$passwordBD = $user->password;
-
 
 		if (!Hash::check($password, $passwordBD))
             return ReturnMessage::messageReturn(true,'Usuário/Senha inválido',null,null, null);
@@ -61,6 +65,5 @@ class LoginController extends Controller
         $tokenJWT = JWT::encode(array_merge($tokenUser, ['exp' => $dateExpire->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('JWT_SECRET'), 'HS256');
 
         return ReturnMessage::messageReturn(false,null,null,null, $tokenJWT);
-
 	}
 }
