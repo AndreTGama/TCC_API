@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Builder\ReturnMessage;
+use App\DAO\UsersDAO;
 use App\Http\Controllers\Controller;
 use DateTime;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -20,53 +24,43 @@ class LoginController extends Controller
     }
     public function loginUser(Request $request)
 	{
-		$data = $request->all();
+        $usersDAO = new UsersDAO();
+        $dateExpire = new DateTime();
 
-		$dataExpira = new DateTime();
+        $data = $this->validate($request, [
+            'login' => ['required'],
+            'password' => ['required']
+        ]);
 
-		$email = $data['login'];
-		$senha = $data['password'];
+        $data = $request->all();
 
-		if (empty($email) || empty($senha))
-			return response()->json(['message' => 'Campos vazios']);
+		$login = $data['login'];
+        $password = $data['password'];
 
-		$user = $usuarioDAO->verificarUsuario($email,true);
 
-		if(!$user)
-			return response()->json(['message' => 'Usuário/Senha inválido']);
+		if (empty($login) || empty($password)) return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
 
-		$tipoUsuario = $tipoUsuarioDAO->consultarUsuarioHasTipoUsuario($user[0]->id_usuario);
-		$senhaBD = $usuarioDAO->verificarSenha($email);
+        $user = $usersDAO->verifyLogin($login,true);
 
-		if (!Hash::check($senha, $senhaBD[0]->senha))
-			return response()->json(['message' => 'Usuário/Senha inválido']);
+        if(!$user) return ReturnMessage::messageReturn(true,'Usuário/Senha inválido',null,null, null);
+
+		$passwordBD = $user->password;
+
+
+		if (!Hash::check($password, $passwordBD))
+            return ReturnMessage::messageReturn(true,'Usuário/Senha inválido',null,null, null);
 
 		$tokenUser = array(
-			'uuid' => uniqid('ut') . $user[0]->id_usuario, //identificador unico
-			'sub' => $user[0]->id_usuario,
-			'tipo_usuario' => array_map(function($item) {
-				return $item->tipo_usuario_id_tipo_usuario;
-			}, $tipoUsuario)
-		);
-		$tokenJWT = JWT::encode(array_merge($tokenUser, ['exp' => $dataExpira->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('APP_KEY'), 'HS256');
-		$expiredAT += 604800;
-		$refreshToken = JWT::encode(array_merge($tokenUser, ['exp' => $dataExpira->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('APP_KEY'), 'HS256');
+			'uuid' => uniqid('ut') . $user->id_user,
+            'sub' => $user->id_user,
+            'name' => $user->name_user,
+			'tipo_usuario' => $user->type_users_id_type_user
+        );
 
-		$dadosToken = [
-			'token' => $tokenJWT,
-			'usuario_id_usuario' => $user[0]->id_usuario,
-		];
-		$tokenDAO->inserirToken($dadosToken);
-		$idToken  = $tokenDAO->consultarIdToken($tokenJWT);
+        $expiredAT = 604800;
+        $tokenJWT = JWT::encode(array_merge($tokenUser, ['exp' => $dateExpire->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('JWT_SECRET'), 'HS256');
 
-		$dadosRefreshToken = [
-			'refresh_token' => $refreshToken,
-			'token_id_token' => $idToken,
-		];
-		$refreshTokenDAO->inserirRefreshToken($dadosRefreshToken);
+        return ReturnMessage::messageReturn(false,null,null,null, $tokenJWT);
 
-		$response = response()->json(['token' => $tokenJWT, 'refreshToken' => $refreshToken]);
-
-		return $response;
 	}
 }

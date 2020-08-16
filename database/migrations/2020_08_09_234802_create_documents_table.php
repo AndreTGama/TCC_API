@@ -15,8 +15,8 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->bigIncrements('id_document');
-            $table->string('cpf', 15)->nullable();
-            $table->string('cnpj', 20)->nullable();
+            $table->string('cpf', 15)->nullable()->unique();
+            $table->string('cnpj', 20)->nullable()->unique();
             $table->boolean('active')->default(1);
             $table->timestamps();
 

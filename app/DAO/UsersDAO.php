@@ -3,6 +3,7 @@
 namespace App\DAO;
 
 use App\Model\users;
+use Illuminate\Support\Facades\DB;
 
 class UsersDAO
 {
@@ -14,8 +15,8 @@ class UsersDAO
      */
     public function consultUsers(array $dados) : ?object
     {
-        $queryDocuments = users::where($dados)->first();
-        return $queryDocuments;
+        $queryUser = users::where($dados)->first();
+        return $queryUser;
     }
     /**
      * createUser
@@ -25,7 +26,22 @@ class UsersDAO
      */
     public function createUser(array $dados) : object
     {
-        $queryDocuments = users::create($dados);
-        return $queryDocuments;
+        $queryUser = users::create($dados);
+        return $queryUser;
+    }
+    /**
+     * verifyLogin
+     *
+     * @param  mixed $login
+     * @return object
+     */
+    public function verifyLogin(string $login) : ?object
+    {
+        $queryUser = DB::table('users')
+                            ->where('login', '=', $login)
+                            ->where('active', '=', true)
+                            ->first();
+        return $queryUser;
+
     }
 }

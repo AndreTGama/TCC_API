@@ -103,7 +103,7 @@ class UserController extends Controller
 
         $dadosUser = [
             'login' => $login,
-            'password' => $password,
+            'password' => bcrypt($password),
             'name_user' => $nameUser,
             'e-mail' => $email,
             'birth_date' => $birthDate,
