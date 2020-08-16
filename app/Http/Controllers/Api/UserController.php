@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Builder\ReturnMessage;
 use App\DAO\AddressesDAO;
 use App\DAO\ContactsDAO;
 use App\DAO\DocumentsDAO;
@@ -29,24 +30,24 @@ class UserController extends Controller
         $contacsDAO = new ContactsDAO();
         $docuemtsDAO = new DocumentsDAO();
 
-        // $data = $this->validate($request, [
-        //     'login' => ['required'],
-        //     'password' => ['required'],
-        //     'nameUser' => ['required'],
-        //     'email' => ['required'],
-        //     'birthDate' => ['required'],
-        //     'typeUsersId' => ['required', 'integer'],
-        //     'street' => ['required'],
-        //     'number' => ['required'],
-        //     'district' => ['required'],
-        //     'city' => ['required'],
-        //     'state' => ['required'],
-        //     'country' => ['required'],
-        //     'dddTel' => ['required','max:3'],
-        //     'dddCel' => ['required','max:3'],
-        //     'telNumber' => ['required','max:9'],
-        //     'celNumber' => ['required','max:10']
-        // ]);
+        $data = $this->validate($request, [
+            'login' => ['required'],
+            'password' => ['required'],
+            'nameUser' => ['required'],
+            'email' => ['required'],
+            'birthDate' => ['required'],
+            'typeUsersId' => ['required', 'integer'],
+            'street' => ['required'],
+            'number' => ['required'],
+            'district' => ['required'],
+            'city' => ['required'],
+            'state' => ['required'],
+            'country' => ['required'],
+            'dddTel' => ['required','max:3'],
+            'dddCel' => ['required','max:3'],
+            'telNumber' => ['required','max:9'],
+            'celNumber' => ['required','max:10']
+        ]);
 
         $data = $request->all();
 
@@ -90,7 +91,7 @@ class UserController extends Controller
             'cnpj' => $cnpj,
         ];
 
-        if(!isset($cpf) && !isset($cnpj)) return dd('Vazios');
+        if(!isset($cpf) && !isset($cnpj)) return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
 
         $queryConsultDocuments = $docuemtsDAO->consultDocuments($dadosDocuments);
 
@@ -130,6 +131,7 @@ class UserController extends Controller
 
         if(empty($queryContactsUser)) $queryCreateUser = $contacsDAO->createContact($dadosContacts);
 
-        dd('Foi');
+        return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
+
     }
 }
