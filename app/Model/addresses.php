@@ -9,12 +9,13 @@ class addresses extends Model
     protected $table = 'addresses';
 
     protected $fillable = [
-       'street',
-       'number',
-       'district',
-       'city',
-       'state',
-       'country'
+        'postcode',
+        'street',
+        'number',
+        'district',
+        'city',
+        'state',
+        'country'
     ];
 
 }

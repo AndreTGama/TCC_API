@@ -37,6 +37,7 @@ class UserController extends Controller
             'email' => ['required'],
             'birthDate' => ['required'],
             'typeUsersId' => ['required', 'integer'],
+            'postcode' => ['required'],
             'street' => ['required'],
             'number' => ['required'],
             'district' => ['required'],
@@ -57,6 +58,7 @@ class UserController extends Controller
         $email = $data['email'];
         $birthDate = $data['birthDate'];
         $typeUsersId = $data['typeUsersId'];
+        $postcode = $data['postcode'];
         $street = $data['street'];
         $number = $data['number'];
         $district = $data['district'];
@@ -71,6 +73,7 @@ class UserController extends Controller
         $cnpj = $data['cnpj'];
 
         $dadosAddress = [
+            'postcode' => $postcode,
             'street' => $street,
             'number' => $number,
             'district' => $district,
