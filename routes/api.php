@@ -14,8 +14,8 @@ Route::group(['middleware' => ['error.handler']], function () {
     });
 
     Route::group(['middleware' => ['auth.jwt']], function () {
-        Route::get('/teste', function () {
-            return 'teste ';
+        Route::prefix('user')->group(function () {
+            Route::post('update-user', 'Api\UserController@updateUser');
         });
     });
 

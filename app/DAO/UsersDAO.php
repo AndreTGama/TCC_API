@@ -44,4 +44,10 @@ class UsersDAO
         return $queryUser;
 
     }
+    public function verifyIdUser(int $idUser) : ?object
+    {
+        $queryUser = users::where('id_user', '=', $idUser)->first();
+
+        return $queryUser;
+    }
 }

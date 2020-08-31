@@ -36,4 +36,10 @@ class DocumentsDAO
         $queryDocuments = documents::create($dados);
         return $queryDocuments;
     }
+    public function updateDocuments(int $idDocuments, array $dados)
+    {
+        $queryDocuments = documents::where('id_document', '=', $idDocuments)->update($dados);
+
+        return $queryDocuments;
+    }
 }
