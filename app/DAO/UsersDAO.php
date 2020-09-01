@@ -32,7 +32,7 @@ class UsersDAO
     /**
      * verifyLogin
      *
-     * @param  mixed $login
+     * @param  string $login
      * @return object
      */
     public function verifyLogin(string $login) : ?object
@@ -44,10 +44,38 @@ class UsersDAO
         return $queryUser;
 
     }
+    /**
+     * verifyIdUser
+     *
+     * @param  int $idUser
+     * @return object
+     */
     public function verifyIdUser(int $idUser) : ?object
     {
         $queryUser = users::where('id_user', '=', $idUser)->first();
 
         return $queryUser;
+    }
+    /**
+     * updateUser
+     *
+     * @param  int $idUser
+     * @param  array <
+     *         string login,
+     *         string password,
+     *         string name_user,
+     *         string e-mail,
+     *         date birth_date,
+     *         number documents_id_document,
+     *         number addresses_id_address,
+     *         number type_users_id_type_user
+     * > $dados
+     * @return object
+     */
+    public function updateUser(int $idUser, array $dados) : ?object
+    {
+        $queryUpdateUser = users::where('id_user', '=', $idUser)->update($dados);
+
+        return $queryUpdateUser;
     }
 }

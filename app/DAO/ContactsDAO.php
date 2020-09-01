@@ -28,4 +28,9 @@ class ContactsDAO
         $queryDocuments = contacts::create($dados);
         return $queryDocuments;
     }
+    public function updateContact(int $idContacs, array $dados) : object
+    {
+        $queryDocuments = contacts::where($idContacs)->update($dados);
+        return $queryDocuments;
+    }
 }

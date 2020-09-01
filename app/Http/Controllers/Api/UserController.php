@@ -222,8 +222,11 @@ class UserController extends Controller
 
         if(empty($queryConsultDocuments)) {
             $queryCreateDocuments = $docuemtsDAO->createDocuments($dadosDocuments);
-            $documentsId = $queryCreateDocuments->id;
-        } else $documentsId = $queryConsultDocuments->id_document;
+            $idDocs = $queryCreateDocuments->id;
+        } else {
+            $documentsId = $queryConsultDocuments->id_document;
+            if($idDocs != $documentsId) return ReturnMessage::messageReturn(true,'CPF/CNPJ já está em uso',null,null, null);
+        }
 
 
         $dadosUser = [
@@ -232,29 +235,25 @@ class UserController extends Controller
             'name_user' => $nameUser,
             'e-mail' => $email,
             'birth_date' => date('Y-m-d', strtotime(str_replace('/', '-', $birthDate))),
-            'documents_id_document' => $documentsId,
+            'documents_id_document' => $idDocs,
             'addresses_id_address' => $adressesId,
             'type_users_id_type_user' => $typeUsersId
         ];
 
-        $queryConsultUser = $usersDAO->consultUsers($dadosUser);
+        $usersDAO->updateUser($idUser, $dadosUser);
 
-        if(empty($queryConsultUser)) {
-            $queryCreateUser = $usersDAO->createUser($dadosUser);
-            $userId = $queryCreateUser->id;
-        } else $userId = $queryConsultUser->id_user;
 
         $dadosContacts = [
             'ddd_tel' => $dddTel,
             'ddd_cel' => $dddCel,
             'tel_number' => $telNumber,
             'cel_number' => $celNumber,
-            'users_id_user' => $userId
+            'users_id_user' => $idUser
         ];
 
         $queryContactsUser = $contacsDAO->consultContact($dadosContacts);
 
-        if(empty($queryContactsUser)) $queryCreateUser = $contacsDAO->createContact($dadosContacts);
+        if(empty($queryContactsUser)) $contacsDAO->updateContact($idUser ,$dadosContacts);
 
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
     }
