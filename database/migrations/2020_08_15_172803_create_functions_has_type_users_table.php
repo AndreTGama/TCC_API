@@ -27,6 +27,9 @@ class CreateFunctionsHasTypeUsersTable extends Migration
                   ->onDelete('restrict');
             $table->boolean('active')->default(1);
             $table->timestamps();
+
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
         });
     }
 
@@ -37,6 +40,11 @@ class CreateFunctionsHasTypeUsersTable extends Migration
      */
     public function down()
     {
+        Schema::table('functions_has_type_users', function (Blueprint $table) {
+            $table->dropForeign(['functions_id_function']);
+            $table->dropForeign(['type_users_id_type_user']);
+            $table->dropColumn(['type_users_id_type_user', 'functions_id_function']);
+        });
         Schema::dropIfExists('functions_has_type_users');
     }
 }

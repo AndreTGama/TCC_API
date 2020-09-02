@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFunctionsTable extends Migration
+class CreateTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,15 @@ class CreateFunctionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('functions', function (Blueprint $table) {
-            $table->bigIncrements('id_function');
-            $table->string('function', 255);
+        Schema::create('tokens', function (Blueprint $table) {
+            $table->bigIncrements('id_token');
+			$table->string('token',1000);
+			$table->boolean('ativo')->default(1);
+			$table->bigInteger('users_id_user')->unsigned()->index();
+			$table->foreign('users_id_user')
+					->references('id_user')
+					->on('users')
+					->onDelete('cascade');
             $table->timestamps();
 
             $table->charset = 'utf8';
@@ -30,6 +36,6 @@ class CreateFunctionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('functions');
+        Schema::dropIfExists('tokens');
     }
 }

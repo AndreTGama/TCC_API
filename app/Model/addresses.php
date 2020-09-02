@@ -17,5 +17,4 @@ class addresses extends Model
         'state',
         'country'
     ];
-
 }

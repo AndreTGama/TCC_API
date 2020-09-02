@@ -39,6 +39,10 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->dropForeign(['users_id_user']);
+            $table->dropColumn(['users_id_user']);
+        });
         Schema::dropIfExists('contacts');
     }
 }

@@ -137,6 +137,12 @@ class UserController extends Controller
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
 
     }
+    /**
+     * updateUser
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function updateUser(Request $request)
     {
         $usersDAO = new UsersDAO();

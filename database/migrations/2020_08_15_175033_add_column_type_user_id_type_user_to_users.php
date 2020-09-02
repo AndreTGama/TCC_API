@@ -30,6 +30,8 @@ class AddColumnTypeUserIdTypeUserToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['type_users_id_type_user']);
+            $table->dropColumn(['type_users_id_type_user']);
         });
     }
 }

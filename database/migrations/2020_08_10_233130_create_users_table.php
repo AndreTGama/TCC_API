@@ -45,6 +45,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['documents_id_document']);
+            $table->dropForeign(['addresses_id_address']);
+            $table->dropColumn(['documents_id_document','addresses_id_address']);
+        });
         Schema::dropIfExists('users');
     }
 }
