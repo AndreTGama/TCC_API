@@ -16,7 +16,7 @@ class CreateTokensTable extends Migration
         Schema::create('tokens', function (Blueprint $table) {
             $table->bigIncrements('id_token');
 			$table->string('token',1000);
-			$table->boolean('ativo')->default(1);
+			$table->boolean('active')->default(1);
 			$table->bigInteger('users_id_user')->unsigned()->index();
 			$table->foreign('users_id_user')
 					->references('id_user')
@@ -28,7 +28,6 @@ class CreateTokensTable extends Migration
             $table->collation = 'utf8_general_ci';
         });
     }
-
     /**
      * Reverse the migrations.
      *

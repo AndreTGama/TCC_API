@@ -115,7 +115,7 @@ class UserController extends Controller
             'type_users_id_type_user' => $typeUsersId
         ];
 
-        $queryConsultUser = $usersDAO->consultUsers($dadosUser);
+        $queryConsultUser = $usersDAO->consultUser($dadosUser);
 
         if(empty($queryConsultUser)) {
             $queryCreateUser = $usersDAO->createUser($dadosUser);

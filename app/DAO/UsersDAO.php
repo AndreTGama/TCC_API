@@ -13,7 +13,7 @@ class UsersDAO
      * @param  array $dados
      * @return object
      */
-    public function consultUsers(array $dados) : ?object
+    public function consultUser(array $dados) : ?object
     {
         $queryUser = users::where($dados)->first();
         return $queryUser;

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
+use App\DAO\RefreshTokenDAO;
+use App\DAO\TokenDAO;
 use App\DAO\UsersDAO;
 use App\Http\Controllers\Controller;
 use DateTime;
@@ -31,7 +33,11 @@ class LoginController extends Controller
     public function loginUser(Request $request)
 	{
         $usersDAO = new UsersDAO();
+        $tokenDAO = new TokenDAO();
+        $refreshTokenDAO = new RefreshTokenDAO();
+        $tokenDAO = new TokenDAO();
         $dateExpire = new DateTime();
+
 
         $data = $this->validate($request, [
             'login' => ['required'],
@@ -42,8 +48,10 @@ class LoginController extends Controller
 
 		$login = $data['login'];
         $password = $data['password'];
+        $expiredAT = $data['time_to_expire'] ?? 604800;
 
-		if (empty($login) || empty($password)) return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
+        if (empty($login) || empty($password))
+            return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
 
         $user = $usersDAO->verifyLogin($login,true);
 
@@ -54,16 +62,37 @@ class LoginController extends Controller
 		if (!Hash::check($password, $passwordBD))
             return ReturnMessage::messageReturn(true,'Usuário/Senha inválido',null,null, null);
 
+        $idUser = $user->id_user;
+
 		$tokenUser = array(
-			'uuid' => uniqid('ut') . $user->id_user,
-            'sub' => $user->id_user,
+			'uuid' => uniqid('ut') . $idUser,
+            'sub' => $idUser,
             'name' => $user->name_user,
 			'tipo_usuario' => $user->type_users_id_type_user
         );
 
-        $expiredAT = 604800;
-        $tokenJWT = JWT::encode(array_merge($tokenUser, ['exp' => $dateExpire->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('JWT_SECRET'), 'HS256');
+        $tokenJWT = JWT::encode(array_merge($tokenUser, ['exp' => $dateExpire->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('APP_KEY'), 'HS256');
+        $expiredAT += 604800;
+		$refreshToken = JWT::encode(array_merge($tokenUser, ['exp' => $dateExpire->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('APP_KEY'), 'HS256');
+
+        $dadosToken = [
+			'token' => $tokenJWT,
+			'users_id_user' => $idUser,
+        ];
+
+        $queryIdToken = $tokenDAO->createToken($dadosToken);
+
+		$dadosRefreshToken = [
+			'refresh_token' => $refreshToken,
+			'tokens_id_token' => $queryIdToken->id,
+        ];
+
+        $refreshTokenDAO->createToken($dadosRefreshToken);
 
         return ReturnMessage::messageReturn(false,null,null,null, $tokenJWT);
-	}
+    }
+    public function logoutUser()
+    {
+
+    }
 }

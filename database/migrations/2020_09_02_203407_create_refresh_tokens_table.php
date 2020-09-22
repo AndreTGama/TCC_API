@@ -16,7 +16,7 @@ class CreateRefreshTokensTable extends Migration
         Schema::create('refresh_tokens', function (Blueprint $table) {
             $table->bigIncrements('id_refresh_token');
 			$table->string('refresh_token',1000);
-			$table->boolean('ativo')->default(1);
+			$table->boolean('active')->default(1);
 			$table->bigInteger('tokens_id_token')->unsigned()->index()->unique();
 			$table->foreign('tokens_id_token')
 					->references('id_token')
