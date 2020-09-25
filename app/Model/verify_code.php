@@ -9,6 +9,7 @@ class verify_code extends Model
     protected $table='verify_codes';
 
     protected $fillable = [
-		'code'
+		'code','users_id_user'
     ];
 }
+

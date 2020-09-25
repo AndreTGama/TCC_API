@@ -11,6 +11,9 @@ Route::group(['middleware' => ['error.handler']], function () {
 
     Route::prefix('user')->group(function () {
         Route::post('create-user', 'Api\UserController@createUser');
+        Route::post('forgot-password', 'Api\LoginController@forgotPassword');
+        Route::post('verify-code', 'Api\LoginController@verifyCode');
+        Route::post('change-password', 'Api\LoginController@changePassword');
     });
 
     Route::group(['middleware' => ['auth.jwt']], function () {
