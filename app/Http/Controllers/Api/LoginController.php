@@ -6,6 +6,7 @@ use App\Builder\ReturnMessage;
 use App\DAO\RefreshTokenDAO;
 use App\DAO\TokenDAO;
 use App\DAO\UsersDAO;
+use App\DATA\Token;
 use App\Http\Controllers\Controller;
 use DateTime;
 use Firebase\JWT\JWT;
@@ -93,6 +94,11 @@ class LoginController extends Controller
     }
     public function logoutUser()
     {
+        $userId = Token::getTokenDecode()->sub;
+		$tokeDAO = new TokenDAO();
 
+		$tokeDAO->deleteToken($userId);
+
+        return ReturnMessage::messageReturn(false,'Usuário deslogado',null,null, null);
     }
 }

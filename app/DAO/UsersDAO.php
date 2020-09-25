@@ -78,4 +78,5 @@ class UsersDAO
 
         return $queryUpdateUser;
     }
+    
 }
