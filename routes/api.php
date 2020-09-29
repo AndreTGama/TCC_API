@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::group(['middleware' => ['error.handler']], function () {
 
+    Route::get('send-email', 'Api\MailController@sendEmail');
     Route::prefix('login')->group(function () {
         Route::post('/', 'Api\LoginController@loginUser');
     });
