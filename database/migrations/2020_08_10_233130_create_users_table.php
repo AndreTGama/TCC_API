@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
                   ->references('id_address')
                   ->on('addresses')
                   ->onDelete('restrict');
-            $table->boolean('active')->default(1);
+            $table->boolean('active')->default(0);
             $table->timestamps();
 
             $table->charset = 'utf8';

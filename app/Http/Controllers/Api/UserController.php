@@ -7,8 +7,11 @@ use App\DAO\AddressesDAO;
 use App\DAO\ContactsDAO;
 use App\DAO\DocumentsDAO;
 use App\DAO\UsersDAO;
+use App\DAO\VerifyCodeDAO;
 use App\Http\Controllers\Controller;
+use App\Mail\EmailServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -29,6 +32,8 @@ class UserController extends Controller
         $addressDAO = new AddressesDAO();
         $contacsDAO = new ContactsDAO();
         $docuemtsDAO = new DocumentsDAO();
+        $verifyCodeDAO = new VerifyCodeDAO();
+        $mail = new EmailServices();
 
         $data = $this->validate($request, [
             'login' => ['required'],
@@ -132,10 +137,26 @@ class UserController extends Controller
 
         $queryContactsUser = $contacsDAO->consultContact($dadosContacts);
 
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $codigoConfirmacao = substr(str_shuffle($characters),0,5);
+        $dadosCode = [
+            'code'=> $codigoConfirmacao,
+            'users_id_user'=>$userId
+        ];
+        $verifyCodeDAO->createVerifyCode($dadosCode);
+
+        $dadosEmail = [
+            'name' => $nameUser,
+            'email' => $email,
+            'subject' => 'Acesso no sistema PlayGama',
+            'code' => $codigoConfirmacao,
+        ];
+
+        Mail::send($mail->emailNewAccount($dadosEmail));
+
         if(empty($queryContactsUser)) $queryCreateUser = $contacsDAO->createContact($dadosContacts);
 
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
-
     }
     /**
      * updateUser

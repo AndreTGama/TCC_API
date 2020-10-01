@@ -18,9 +18,9 @@ class EmailServices extends Mailable
      *
      * @return void
      */
-    public function __construct(stdClass $user)
+    public function __construct()
     {
-        $this->user = $user;
+        // $this->user = $user;
     }
 
     /**
@@ -30,9 +30,22 @@ class EmailServices extends Mailable
      */
     public function build()
     {
-        $this->subject('Teste');
-        $this->to($this->user->email, $this->user->name);
+        // $this->subject('Teste');
+        // $this->to($this->user->email, $this->user->name);
 
-        return $this->view('mail.email-send-code-recorver-password');
+        // return $this->view('mail.email-send-code-recorver-password');
+    }
+    /**
+     * emailNewAccount
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function emailNewAccount(array $array)
+    {
+        $this->subject($array['subject']);
+        $this->to($array['email'], $array['name']);
+
+        return $this->markdown('mail.email-send-confirmation')->with(['code' => $array['code']]);
     }
 }
