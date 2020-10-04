@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use PhpParser\Node\Expr\FuncCall;
 use stdClass;
 
 class EmailServices extends Mailable
@@ -47,5 +48,12 @@ class EmailServices extends Mailable
         $this->to($array['email'], $array['name']);
 
         return $this->markdown('mail.email-send-confirmation')->with(['code' => $array['code']]);
+    }
+    public function verifyEmail(array $array)
+    {
+        $this->subject($array['subject']);
+        $this->to($array['email'], $array['name']);
+
+        return $this->markdown('mail.email-send-code-recorver-password')->with(['code' => $array['code']]);
     }
 }

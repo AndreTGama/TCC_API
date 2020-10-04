@@ -9,6 +9,7 @@ use App\DAO\UsersDAO;
 use App\DATA\Token;
 use App\DAO\VerifyCodeDAO;
 use App\Http\Controllers\Controller;
+use App\Mail\EmailServices;
 use DateTime;
 use Facade\Ignition\QueryRecorder\Query;
 use Firebase\JWT\JWT;
@@ -111,6 +112,7 @@ class LoginController extends Controller
     }
     public function forgotPassword(Request $request)
     {
+        $mail = new EmailServices();
         $data = $this->validate($request, [
             'email' => ['required'],
         ]);
@@ -135,6 +137,13 @@ class LoginController extends Controller
             'users_id_user'=>$idUser
         ];
         $verifyCodeDAO->createVerifyCode($dadosCode);
+        $dadosEmail=[
+            'subject'=>'esqueceu-senha',
+            'name'=>$nameUser,
+            'email'=>$email,
+            'code'=>$codigoConfirmacao
+        ];
+        $mail->verifyEmail($dadosEmail);
         return ReturnMessage::messageReturn(false,'Código de verficação enviado para o e-mail',null,null, null);
 
     }
