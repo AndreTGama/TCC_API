@@ -9,6 +9,6 @@ class functions extends Model
     protected $table = 'functions';
 
     protected $fillable = [
-       'function',
+       'function','functions_id_function'
     ];
 }

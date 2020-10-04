@@ -11,6 +11,7 @@ use App\DAO\VerifyCodeDAO;
 use App\Http\Controllers\Controller;
 use App\Mail\EmailServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -87,6 +88,8 @@ class UserController extends Controller
             'country' => $country
         ];
 
+        DB::beginTransaction();
+
         $queryConsultAddress = $addressDAO->consultAddresses($dadosAddress);
 
         if(empty($queryConsultAddress)) {
@@ -99,15 +102,20 @@ class UserController extends Controller
             'cnpj' => $cnpj,
         ];
 
-        if(!isset($cpf) && !isset($cnpj)) return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
+        if(!isset($cpf) && !isset($cnpj)) {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Campos vazios',null,null, null);
+        }
 
         $queryConsultDocuments = $docuemtsDAO->consultDocuments($dadosDocuments);
 
         if(empty($queryConsultDocuments)) {
             $queryCreateDocuments = $docuemtsDAO->createDocuments($dadosDocuments);
             $documentsId = $queryCreateDocuments->id;
-        } else $documentsId = $queryConsultDocuments->id_document;
-
+        } else {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Cpf/CNPJ não são válidos',null,null, null);
+        }
 
         $dadosUser = [
             'login' => $login,
@@ -125,8 +133,10 @@ class UserController extends Controller
         if(empty($queryConsultUser)) {
             $queryCreateUser = $usersDAO->createUser($dadosUser);
             $userId = $queryCreateUser->id;
-        } else $userId = $queryConsultUser->id_user;
-
+        } else {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Usuário já existe no sistema',null,null, null);
+        }
         $dadosContacts = [
             'ddd_tel' => $dddTel,
             'ddd_cel' => $dddCel,
@@ -156,6 +166,7 @@ class UserController extends Controller
 
         if(empty($queryContactsUser)) $queryCreateUser = $contacsDAO->createContact($dadosContacts);
 
+        DB::commit();
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
     }
     /**

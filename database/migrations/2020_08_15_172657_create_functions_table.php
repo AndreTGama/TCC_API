@@ -16,6 +16,12 @@ class CreateFunctionsTable extends Migration
         Schema::create('functions', function (Blueprint $table) {
             $table->bigIncrements('id_function');
             $table->string('function', 255);
+            $table->unsignedBigInteger('functions_id_function')->nullable();
+            $table->foreign('functions_id_function')
+                  ->references('id_function')
+                  ->on('functions')
+                  ->onDelete('restrict');
+            $table->boolean('active')->default(1);
             $table->timestamps();
 
             $table->charset = 'utf8';

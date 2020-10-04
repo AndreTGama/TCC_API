@@ -15,7 +15,10 @@ class UsersDAO
      */
     public function consultUser(array $dados) : ?object
     {
-        $queryUser = users::where($dados)->first();
+        $queryUser = users::where([
+                ['login', '=', $dados['login']],
+                ['e-mail', '=', $dados['e-mail']]
+            ])->first();
         return $queryUser;
     }
     /**
@@ -78,5 +81,5 @@ class UsersDAO
 
         return $queryUpdateUser;
     }
-    
+
 }

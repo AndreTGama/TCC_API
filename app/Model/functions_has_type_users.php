@@ -9,11 +9,7 @@ class functions_has_type_users extends Model
     protected $table = 'functions_has_type_users';
 
     protected $fillable = [
-        'street',
-        'number',
-        'district',
-        'city',
-        'state',
-        'country'
+        'type_users_id_type_user',
+        'functions_id_function',
      ];
 }
