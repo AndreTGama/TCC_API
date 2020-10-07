@@ -147,4 +147,16 @@ class LoginController extends Controller
         return ReturnMessage::messageReturn(false,'Código de verficação enviado para o e-mail',null,null, null);
 
     }
+    public function VerifyCode(Request $request)
+    {
+        $data = $this->validate($request, [
+            'code' => ['required'],
+        ]);
+        $data = $request->all();
+        $code = $data['code'];
+        $verifyCodeDAO = new VerifyCodeDAO();
+        $dados = ['code' => $code];
+        $queryCode = $verifyCodeDAO->consultCode($dados);
+        dd($queryCode);
+    }
 }
