@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
+use App\DAO\FunctionHasUserDAO;
 use App\DAO\RefreshTokenDAO;
 use App\DAO\TokenDAO;
 use App\DAO\UsersDAO;
@@ -40,6 +41,7 @@ class LoginController extends Controller
         $refreshTokenDAO = new RefreshTokenDAO();
         $tokenDAO = new TokenDAO();
         $dateExpire = new DateTime();
+        $functionHasUserDAO = new FunctionHasUserDAO();
 
 
         $data = $this->validate($request, [
@@ -68,11 +70,14 @@ class LoginController extends Controller
 
         $idUser = $user->id_user;
 
+        $functionUser = $functionHasUserDAO->verifyFunctions($user->type_users_id_type_user);
+
 		$tokenUser = array(
 			'uuid' => uniqid('ut') . $idUser,
             'sub' => $idUser,
             'name' => $user->name_user,
-            'tipo_usuario' => $user->type_users_id_type_user
+            'type_user' => $user->type_users_id_type_user,
+            'functions' => $functionUser,
         );
 
         $tokenJWT = JWT::encode(array_merge($tokenUser, ['exp' => $dateExpire->modify("+{$expiredAT} seconds")->getTimestamp(),]), env('APP_KEY'), 'HS256');

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class FunctionHasUsersSeeder extends Seeder
 {
@@ -37,6 +38,6 @@ class FunctionHasUsersSeeder extends Seeder
 				'updated_at' => now(),
             ],
 		];
-		DB::table('functions_has_type_users')->insert($dados);
+        DB::table('functions_has_type_users')->insert($dados);
     }
 }
