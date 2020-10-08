@@ -18,9 +18,12 @@ class JwtMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $jwt = $request->bearerToken();
+        $key = env('APP_KEY');
+
         try {
-			$tokenDecode = JWT::decode($request->bearerToken(), env('JWT_SECRET'),['HS256']);
-			Token::setTokenEncode($request->bearerToken());
+            $tokenDecode = JWT::decode($jwt, $key, array('HS256'));
+			Token::setTokenEncode($jwt);
 			Token::setTokenDecode($tokenDecode);
 		} catch (SignatureInvalidException | ExpiredException | BeforeValidException| \UnexpectedValueException $error) {
             return ReturnMessage::messageReturn(false,'Houve um erro na autenticação, por favor tente novamente. Caso o erro persista, entre em contato com o administrador do sistema',$error->getMessage(),null, null);

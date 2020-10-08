@@ -11,7 +11,6 @@ use App\DATA\Token;
 use App\DAO\VerifyCodeDAO;
 use App\Http\Controllers\Controller;
 use DateTime;
-use Facade\Ignition\QueryRecorder\Query;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -105,7 +104,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function logoutUser()
+    public function logoutUser(Request $request)
     {
         $userId = Token::getTokenDecode()->sub;
 		$tokeDAO = new TokenDAO();
@@ -114,6 +113,12 @@ class LoginController extends Controller
 
         return ReturnMessage::messageReturn(false,'Usuário deslogado',null,null, null);
     }
+    /**
+     * forgotPassword
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function forgotPassword(Request $request)
     {
         $data = $this->validate($request, [

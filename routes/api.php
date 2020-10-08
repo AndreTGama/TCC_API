@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
     });
 
     Route::group(['middleware' => ['auth.jwt']], function () {
-        Route::post('/logout', 'Api\UserController@updateUser');
+        Route::get('/logout', 'Api\LoginController@logoutUser');
         Route::prefix('user')->group(function () {
             Route::post('update-user', 'Api\UserController@updateUser');
         });
