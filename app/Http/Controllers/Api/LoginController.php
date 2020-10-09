@@ -143,7 +143,7 @@ class LoginController extends Controller
             'email'=>$email,
             'code'=>$codigoConfirmacao
         ];
-        $mail->verifyEmail($dadosEmail);
+        $mail->sendEmailRecovery($dadosEmail);
         return ReturnMessage::messageReturn(false,'Código de verficação enviado para o e-mail',null,null, null);
 
     }
@@ -157,6 +157,12 @@ class LoginController extends Controller
         $verifyCodeDAO = new VerifyCodeDAO();
         $dados = ['code' => $code];
         $queryCode = $verifyCodeDAO->consultCode($dados);
-        dd($queryCode);
+
+
+        if(!$queryCode)return ReturnMessage::messageReturn(true,'Código digitado é inválido',null,null,null);
+        $idUser = $queryCode->users_id_user;
+        return ReturnMessage::messageReturn(false,'Código digitado é válido',null,null,$idUser);
+
+
     }
 }
