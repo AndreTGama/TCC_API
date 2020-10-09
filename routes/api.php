@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Route;
         Route::prefix('user')->group(function () {
             Route::post('update-user', 'Api\UserController@updateUser');
         });
+
+        Route::prefix('dash')->group(function () {
+            Route::get('/administrator', 'Api\DashController@dashAdministrator');
+        });
     });
 
 // });

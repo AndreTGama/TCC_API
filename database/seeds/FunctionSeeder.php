@@ -132,6 +132,12 @@ class FunctionSeeder extends Seeder
 				'created_at' => now(),
 				'updated_at' => now(),
             ],
+            [
+                'function'=> 'Dash Adminstrativa',
+                'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
 		];
 
 		DB::table('functions')->insert($dados);

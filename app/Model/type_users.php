@@ -10,5 +10,7 @@ class type_users extends Model
 
     protected $fillable = [
         'type_user',
-     ];
+    ];
+
+    protected $cast = 'id_type_user';
 }

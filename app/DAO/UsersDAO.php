@@ -81,5 +81,17 @@ class UsersDAO
 
         return $queryUpdateUser;
     }
+    public function listUsersInSystemForType(int $typeUser = null) : ?object
+    {
+        $queryListUser = DB::table('users')
+                        ->join('type_users', 'type_users.id_type_user', 'users.type_users_id_type_user')
+                        ->where('users.active', '=', true)
+                        ->select('users.name_user', 'users.id_user', 'type_users.id_type_user', 'type_users.type_user');
+        if($typeUser) $queryListUser = $queryListUser->where('type_users.id_type_user', '=', $typeUser);
+
+        $queryListUser = $queryListUser->get();
+
+        return $queryListUser;
+    }
 
 }

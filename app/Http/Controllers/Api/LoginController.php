@@ -104,7 +104,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function logoutUser(Request $request)
+    public function logoutUser()
     {
         $userId = Token::getTokenDecode()->sub;
 		$tokeDAO = new TokenDAO();
