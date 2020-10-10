@@ -49,7 +49,7 @@ class EmailServices extends Mailable
 
         return $this->markdown('mail.email-send-confirmation')->with(['code' => $array['code']]);
     }
-    public function verifyEmail(array $array)
+    public function sendEmailRecovery(array $array)
     {
         $this->subject($array['subject']);
         $this->to($array['email'], $array['name']);

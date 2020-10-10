@@ -72,11 +72,11 @@ class UsersDAO
      * > $dados
      * @return object
      */
-    public function updateUser(int $idUser, array $dados) : ?object
+    public function updateUser(int $idUser, array $dados) : ?int
     {
         $queryUpdateUser = users::where('id_user', '=', $idUser)->update($dados);
 
         return $queryUpdateUser;
     }
-    
+
 }
