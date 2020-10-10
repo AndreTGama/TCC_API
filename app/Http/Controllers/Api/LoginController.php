@@ -42,12 +42,10 @@ class LoginController extends Controller
         $dateExpire = new DateTime();
         $functionHasUserDAO = new FunctionHasUserDAO();
 
-
         $data = $this->validate($request, [
             'login' => ['required'],
             'password' => ['required']
         ]);
-
 
         $data = $request->all();
 

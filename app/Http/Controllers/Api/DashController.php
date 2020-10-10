@@ -22,6 +22,11 @@ class DashController extends Controller
     {
         //
     }
+    /**
+     * dashAdministrator
+     *
+     * @return void
+     */
     public function dashAdministrator()
     {
         $functions = Token::getTokenDecode()->functions;

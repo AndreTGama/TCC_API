@@ -93,5 +93,20 @@ class UsersDAO
 
         return $queryListUser;
     }
-
+    public function infoUser(int $idUser) : ?object
+    {
+        $queryInfoUser = DB::table('users')
+                        ->join('documents', 'documents.id_document', 'users.documents_id_document')
+                        ->join('addresses', 'addresses.id_address', 'users.addresses_id_address')
+                        ->join('type_users', 'type_users.id_type_user', 'users.type_users_id_type_user')
+                        ->where('users.active', '=', true)
+                        ->where('users.id_user', '=', $idUser)
+                        ->select('users.id_user', 'users.login', 'users.e-mail',
+                        DB::raw('DATE_FORMAT(users.birth_date, "%d-%m-%Y") as birth_date'),
+                        'documents.cpf','documents.id_document', 'documents.cnpj', 'addresses.id_address',
+                        'addresses.postcode', 'addresses.street', 'addresses.number', 'addresses.district',
+                        'addresses.city', 'addresses.state', 'addresses.country',
+                        'type_users.id_type_user', 'type_users.type_user')->get();
+        return $queryInfoUser;
+    }
 }
