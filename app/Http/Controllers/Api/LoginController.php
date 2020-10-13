@@ -180,7 +180,7 @@ class LoginController extends Controller
         if($password != $confirmedPassword) return ReturnMessage::messageReturn(true,'senhas não são iguais',null,null,null);
         $usersDao = new UsersDAO();
         $dados = ['password' => bcrypt($password)];
-        $queryUpdateUser = $usersDao->updateUser($idUser,$dados);
+        $usersDao->updateUser($idUser,$dados);
         return ReturnMessage::messageReturn(false,'Senha alterada com sucesso',null,null,null);
     }
 
