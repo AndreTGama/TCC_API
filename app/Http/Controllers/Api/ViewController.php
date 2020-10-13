@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class ViewController extends Controller
 {
     /**
-     * listAdmInSystem
+     * listSupervisorInSystem
      *
      * @return \Illuminate\Http\Response
      */
-    public function listAdmInSystem()
+    public function listSupervisorInSystem()
     {
         $usersDAO = new UsersDAO();
         $typeUser = 1;
@@ -24,11 +24,11 @@ class ViewController extends Controller
         return ReturnMessage::messageReturn(false,null,null,null, $listAdmi);
     }
     /**
-     * listCompanyInSystem
+     * listAdmInSystem
      *
      * @return \Illuminate\Http\Response
      */
-    public function listCompanyInSystem()
+    public function listAdmInSystem()
     {
         $usersDAO = new UsersDAO();
         $typeUser = 2;

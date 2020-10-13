@@ -23,11 +23,11 @@ class DashController extends Controller
         //
     }
     /**
-     * dashAdministrator
+     * dashSupervisor
      *
      * @return void
      */
-    public function dashAdministrator()
+    public function dashSupervisor()
     {
         $functions = Token::getTokenDecode()->functions;
         $arrayFuntionsId = [];

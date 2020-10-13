@@ -24,12 +24,12 @@ use Illuminate\Support\Facades\Route;
         });
 
         Route::prefix('dash')->group(function () {
-            Route::get('/administrator', 'Api\DashController@dashAdministrator');
+            Route::get('/administrator', 'Api\DashController@dashSupervisor');
         });
 
         Route::prefix('list')->group(function () {
+            Route::get('/supervisor', 'Api\ViewController@listSupervisorInSystem');
             Route::get('/administrator', 'Api\ViewController@listAdmInSystem');
-            Route::get('/company', 'Api\ViewController@listCompanyInSystem');
             Route::get('/client', 'Api\ViewController@listClientInSystem');
         });
 

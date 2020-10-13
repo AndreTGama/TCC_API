@@ -14,17 +14,17 @@ class TypeUsersSeeder extends Seeder
     {
         $dados = [
 			[
-				'type_user'=> 'ADMIN',
+				'type_user'=> 'SUPERVISOR',
 				'created_at' => now(),
 				'updated_at' => now(),
 			],
 			[
-				'type_user'=> 'EMPRESA',
+				'type_user'=> 'ADMINISTRAÇÃO',
 				'created_at' => now(),
 				'updated_at' => now(),
             ],
             [
-				'type_user'=> 'USUARIO',
+				'type_user'=> 'CLIENTE',
 				'created_at' => now(),
 				'updated_at' => now(),
 			],
