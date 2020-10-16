@@ -10,6 +10,7 @@ use App\DAO\UsersDAO;
 use App\DATA\Token;
 use App\DAO\VerifyCodeDAO;
 use App\Http\Controllers\Controller;
+use App\Mail\EmailServices;
 use DateTime;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -119,6 +120,7 @@ class LoginController extends Controller
      */
     public function forgotPassword(Request $request)
     {
+        $mail = new EmailServices();
         $data = $this->validate($request, [
             'email' => ['required'],
         ]);
@@ -143,7 +145,51 @@ class LoginController extends Controller
             'users_id_user'=>$idUser
         ];
         $verifyCodeDAO->createVerifyCode($dadosCode);
+        $dadosEmail=[
+            'subject'=>'esqueceu-senha',
+            'name'=>$nameUser,
+            'email'=>$email,
+            'code'=>$codigoConfirmacao
+        ];
+        $mail->sendEmailRecovery($dadosEmail);
         return ReturnMessage::messageReturn(false,'Código de verficação enviado para o e-mail',null,null, null);
 
     }
+    public function VerifyCode(Request $request)
+    {
+        $data = $this->validate($request, [
+            'code' => ['required'],
+        ]);
+        $data = $request->all();
+        $code = $data['code'];
+        $verifyCodeDAO = new VerifyCodeDAO();
+        $dados = ['code' => $code];
+        $queryCode = $verifyCodeDAO->consultCode($dados);
+
+
+        if(!$queryCode)return ReturnMessage::messageReturn(true,'Código digitado é inválido',null,null,null);
+        $idUser = $queryCode->users_id_user;
+        return ReturnMessage::messageReturn(false,'Código digitado é válido',null,null,$idUser);
+    }
+
+    public function ChangePassword(Request $request)
+    {
+
+       $data = $this->validate($request, [
+            'password' => ['required'],
+            'confirmedPassword' => ['required'],
+            'idUser' => ['required','integer']
+        ]);
+
+        $data = $request->all();
+        $password = $data['password'];
+        $confirmedPassword = $data['confirmedPassword'];
+        $idUser = $data['idUser'];
+        if($password != $confirmedPassword) return ReturnMessage::messageReturn(true,'senhas não são iguais',null,null,null);
+        $usersDao = new UsersDAO();
+        $dados = ['password' => bcrypt($password)];
+        $usersDao->updateUser($idUser,$dados);
+        return ReturnMessage::messageReturn(false,'Senha alterada com sucesso',null,null,null);
+    }
+
 }

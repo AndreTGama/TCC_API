@@ -19,12 +19,10 @@ class users extends Model
         'type_users_id_type_user',
     ];
 
-    protected $dateFormat = 'd/m/Y';
-
     protected $dates = ['birth_date', 'created_at', 'updated_at'];
 
     protected $casts = [
-        'birth_date' => 'date:d/m/Y',
+        'birth_date' => 'date:Y-m-d',
     ];
 
 }

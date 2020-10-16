@@ -8,6 +8,7 @@ use App\DAO\ContactsDAO;
 use App\DAO\DocumentsDAO;
 use App\DAO\UsersDAO;
 use App\DAO\VerifyCodeDAO;
+use App\DATA\Token;
 use App\Http\Controllers\Controller;
 use App\Mail\EmailServices;
 use Illuminate\Http\Request;
@@ -17,12 +18,12 @@ use Illuminate\Support\Facades\Mail;
 class CreateController extends Controller
 {
     /**
-     * createClient
+     * createUser
      *
      * @param  mixed $request
      * @return void
      */
-    public function createClient(Request $request)
+    public function createUser(Request $request)
     {
         $usersDAO = new UsersDAO();
         $addressDAO = new AddressesDAO();
@@ -123,11 +124,13 @@ class CreateController extends Controller
             'type_users_id_type_user' => $typeUsersId
         ];
 
+
         $queryConsultUser = $usersDAO->consultUser($dadosUser);
 
         if(empty($queryConsultUser)) {
             $queryCreateUser = $usersDAO->createUser($dadosUser);
             $userId = $queryCreateUser->id;
+
         } else {
             DB::rollBack();
             return ReturnMessage::messageReturn(true,'Usuário já existe no sistema',null,null, null);
@@ -163,6 +166,20 @@ class CreateController extends Controller
 
         DB::commit();
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
+    }
+    public function createDaysToWork(Request $request)
+    {
+        $functions = Token::getTokenDecode()->functions;
+        $arrayFuntionsId = [];
+        $arrayTypeFuntions = [];
+
+        foreach($functions as $function){
+            $arrayFuntionsId[] = $function->id_function;
+        }
+
+        if(!array_search(22, $arrayFuntionsId)) return ReturnMessage::messageReturn(true,'Usuário não tem permissão de acessar essa função',null,null, null);
+
+        // $data = $this->validate($request)
     }
 
 }

@@ -75,12 +75,18 @@ class UsersDAO
      * > $dados
      * @return object
      */
-    public function updateUser(int $idUser, array $dados) : ?object
+    public function updateUser(int $idUser, array $dados) : ?int
     {
         $queryUpdateUser = users::where('id_user', '=', $idUser)->update($dados);
 
         return $queryUpdateUser;
     }
+    /**
+     * listUsersInSystemForType
+     *
+     * @param  int $typeUser
+     * @return object
+     */
     public function listUsersInSystemForType(int $typeUser = null) : ?object
     {
         $queryListUser = DB::table('users')
@@ -93,6 +99,12 @@ class UsersDAO
 
         return $queryListUser;
     }
+    /**
+     * infoUser
+     *
+     * @param  int $idUser
+     * @return object
+     */
     public function infoUser(int $idUser) : ?object
     {
         $queryInfoUser = DB::table('users')
@@ -107,6 +119,7 @@ class UsersDAO
                         'addresses.postcode', 'addresses.street', 'addresses.number', 'addresses.district',
                         'addresses.city', 'addresses.state', 'addresses.country',
                         'type_users.id_type_user', 'type_users.type_user')->get();
+
         return $queryInfoUser;
     }
 }

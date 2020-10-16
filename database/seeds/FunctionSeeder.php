@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class FunctionSeeder extends Seeder
 {
@@ -135,6 +136,12 @@ class FunctionSeeder extends Seeder
             [
                 'function'=> 'Dash Adminstrativa',
                 'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Cadastro de Horários de Funcionamento',
+                'functions_id_function' => 1,
 				'created_at' => now(),
 				'updated_at' => now(),
             ],

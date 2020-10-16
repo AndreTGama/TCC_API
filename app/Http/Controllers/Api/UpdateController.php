@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
+    /**
+     * updateUser
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function updateUser(Request $request)
     {
         $usersDAO = new UsersDAO();
