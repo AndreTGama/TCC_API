@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
 use App\DAO\AddressesDAO;
+use App\DAO\ComunicatedDAO;
 use App\DAO\ContactsDAO;
 use App\DAO\DocumentsDAO;
 use App\DAO\UsersDAO;
+use App\DAO\UsersHasComunicatedsDAO;
 use App\DAO\VerifyCodeDAO;
 use App\DATA\Token;
 use App\Http\Controllers\Controller;
@@ -182,6 +184,28 @@ class CreateController extends Controller
             'login' => ['required'],
             'password' => ['required']
         ]);
+    }
+    public function createdComunicated(Request $request)
+    {
+        $idUser = Token::getTokenDecode()->sub;
+        $data = $this->validate($request, [
+            'comunicated'=> ['required'],
+            'to_id_user'=>['required','integer']
+        ]);
+        $data = $request->all();
+        $comunicated = $data['comunicated'];
+        $comunicatedDAO = new ComunicatedDAO();
+        $dados = ['comunicated' => $comunicated,'users_id_user'=> $idUser];
+        DB::beginTransaction();
+        $queryComunicated = $comunicatedDAO->createComunicated($dados);
+        if(!isset($queryComunicated->id)) {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Mensagem não foi enviada',null,null, null);
+        }
+        $usersHasComunicatedsDAO = new UsersHasComunicatedsDAO();
+
+        DB::commit();
+
     }
 
 }
