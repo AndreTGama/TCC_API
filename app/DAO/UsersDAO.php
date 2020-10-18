@@ -42,7 +42,6 @@ class UsersDAO
     {
         $queryUser = DB::table('users')
                             ->where('login', '=', $login)
-                            ->where('active', '=', true)
                             ->first();
         return $queryUser;
 

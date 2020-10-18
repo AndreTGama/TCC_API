@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Builder\ReturnMessage;
 use App\DAO\AddressesDAO;
 use App\DAO\ContactsDAO;
+use App\DAO\DaysHasUsersDAO;
 use App\DAO\DocumentsDAO;
+use App\DAO\OpenHoursDAO;
 use App\DAO\UsersDAO;
 use App\DAO\VerifyCodeDAO;
 use App\DATA\Token;
@@ -167,16 +169,23 @@ class CreateController extends Controller
         DB::commit();
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
     }
+    /**
+     * createDaysToWork
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function createDaysToWork(Request $request)
     {
         $functions = Token::getTokenDecode()->functions;
+        $idUser = Token::getTokenDecode()->sub;
         $arrayFuntionsId = [];
 
         foreach($functions as $function){
             $arrayFuntionsId[] = $function->id_function;
         }
 
-        if(!array_search(22, $arrayFuntionsId)) return ReturnMessage::messageReturn(true,'Usuário não tem permissão de acessar essa função',null,null, null);
+        if(array_search(22, $arrayFuntionsId)) return ReturnMessage::messageReturn(true,'Usuário não tem permissão de acessar essa função',null,null, null);
 
         $data = $this->validate($request, [
             'daysWorks' => ['required'],
@@ -186,7 +195,37 @@ class CreateController extends Controller
 
         $days = $data['daysWorks'];
 
-        dd($days);
+        foreach($days as $key=>$day){
+            $idDay = $day['idDay'];
+            $dayActive = $day['active'];
+
+            if($dayActive == false) continue;
+
+            $openHoursDAO = new OpenHoursDAO();
+            $daysHasUsersDAO = new DaysHasUsersDAO();
+
+            $hoursDados = [
+                'open' => $day['open'],
+                'close' => $day['endService'],
+                'lunch_time_out' => $day['stopLaunch'],
+                'lunch_time_in' => $day['backLaunch']
+            ];
+
+            $queryOpen = $openHoursDAO->verifyHours($hoursDados);
+
+            if($queryOpen){
+                $queryHours = $openHoursDAO->createOpenHours($hoursDados);
+                $idOpenHours = $queryHours->id;
+            }else $idOpenHours = $queryOpen->id_opening_hour;
+
+            $dayDados = [
+                'users_id_user' => $idUser,
+                'days_weeks_id_days_week' => $idDay,
+                'opening_hours_id_opening_hour' => $idOpenHours,
+            ];
+
+            $queryDaysHours = $daysHasUsersDAO->createDaysWeeksHasUsers($dayDados);
+        }
     }
 
 }

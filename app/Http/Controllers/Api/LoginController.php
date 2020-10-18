@@ -19,20 +19,10 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * loginUser
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
-    {
-        //
-    }
-    /**
-     * loginUser
-     *
-     * @param  mixed $request
-     * @return void
      */
     public function loginUser(Request $request)
     {
@@ -59,7 +49,9 @@ class LoginController extends Controller
 
         $user = $usersDAO->verifyLogin($login, true);
 
-        if (!$user) return ReturnMessage::messageReturn(true, 'Usuário/Senha inválido', null, null, null);
+        if (!$user) return ReturnMessage::messageReturn(true, 'Usuário não existe', null, null, null);
+
+        if ($user->active == false) return ReturnMessage::messageReturn(true, 'Usuário não está ativo no sistema', null, null, null);
 
         $passwordBD = $user->password;
 
