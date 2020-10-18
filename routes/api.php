@@ -35,5 +35,9 @@ use Illuminate\Support\Facades\Route;
         Route::prefix('view')->group(function () {
             Route::post('/info-user', 'Api\ViewController@viewOnlyUser');
         });
+
+        Route::prefix('hours')->group(function () {
+            Route::post('/hours-administrator', 'Api\CreateController@createDaysToWork');
+        });
     });
 // });

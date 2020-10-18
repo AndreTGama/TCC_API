@@ -179,9 +179,14 @@ class CreateController extends Controller
         if(!array_search(22, $arrayFuntionsId)) return ReturnMessage::messageReturn(true,'Usuário não tem permissão de acessar essa função',null,null, null);
 
         $data = $this->validate($request, [
-            'login' => ['required'],
-            'password' => ['required']
+            'daysWorks' => ['required'],
         ]);
+
+        $data = $request->all();
+
+        $days = $data['daysWorks'];
+
+        dd($days);
     }
 
 }
