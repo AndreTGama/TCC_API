@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route::group(['middleware' => ['error.handler']], function () {
+    Route::group(['middleware' => ['error.handler']], function () {
     Route::get('send-email', 'Api\MailController@sendEmail');
     Route::prefix('login')->group(function () {
         Route::post('/', 'Api\LoginController@loginUser');
@@ -35,5 +35,8 @@ use Illuminate\Support\Facades\Route;
         Route::prefix('view')->group(function () {
             Route::post('/info-user', 'Api\ViewController@viewOnlyUser');
         });
+        Route::prefix('comunicated')->group(function () {
+            Route::post('/create-newcomunicated', 'Api\CreateController@createdComunicated');
+        });
     });
-// });
+ });

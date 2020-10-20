@@ -20,9 +20,9 @@ class CreateUsersHasComunicatedsTable extends Migration
             $table->bigInteger('comunicateds_id_comunicated')->unsigned()->index();
             $table->foreign('comunicateds_id_comunicated')->references('id_comunicated')->on('comunicateds')->onDelete('cascade');
             $table->boolean('view')->default(0);
-            $table->bigInteger('users_has_comunicateds_id')->unsigned()->index();
+            $table->bigInteger('users_has_comunicateds_id')->unsigned()->index()->nullable();
             $table->foreign('users_has_comunicateds_id')->references('id_users_has_comunicateds')
-                    ->on('users_has_comunicateds')->onDelete('cascade')->nullable();
+                    ->on('users_has_comunicateds')->onDelete('cascade');
             $table->timestamps();
         });
     }

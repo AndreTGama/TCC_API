@@ -190,21 +190,31 @@ class CreateController extends Controller
         $idUser = Token::getTokenDecode()->sub;
         $data = $this->validate($request, [
             'comunicated'=> ['required'],
-            'to_id_user'=>['required','integer']
+            'toIdUser'=>['required','integer']
         ]);
         $data = $request->all();
         $comunicated = $data['comunicated'];
+        $toIdUser = $data['toIdUser'];
         $comunicatedDAO = new ComunicatedDAO();
         $dados = ['comunicated' => $comunicated,'users_id_user'=> $idUser];
+
         DB::beginTransaction();
+
         $queryComunicated = $comunicatedDAO->createComunicated($dados);
         if(!isset($queryComunicated->id)) {
             DB::rollBack();
             return ReturnMessage::messageReturn(true,'Mensagem não foi enviada',null,null, null);
         }
         $usersHasComunicatedsDAO = new UsersHasComunicatedsDAO();
-
+        $idComunicated = $queryComunicated->id;
+        $dados =['users_id_user' => $toIdUser, 'comunicateds_id_comunicated'=> $idComunicated];
+        $comunicatedHasUser = $usersHasComunicatedsDAO->createUsersComunicated($dados);
+        if(!isset($comunicatedHasUser->id)) {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Mensagem não foi enviada',null,null, null);
+        }
         DB::commit();
+        return ReturnMessage::messageReturn(false,'Mensagem foi enviada',null,null, null);
 
     }
 

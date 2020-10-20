@@ -4,6 +4,7 @@ namespace App\DAO;
 
 use App\Model\users_has_comunicateds;
 use App\Model\usershascomunicated;
+use Illuminate\Support\Facades\DB;
 
 class UsersHasComunicatedsDAO
 {
