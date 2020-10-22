@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
+use App\DAO\DaysHasUsersDAO;
 use App\DAO\UsersDAO;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class ViewController extends Controller
      */
     public function viewOnlyUser(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'idUser' => ['required'],
         ]);
 
@@ -73,5 +74,28 @@ class ViewController extends Controller
         if($infoUser) return ReturnMessage::messageReturn(false,null,null,null, $infoUser);
 
         return ReturnMessage::messageReturn(false,null,null,null, null);
+    }
+     /**
+     * viewHoursCompany
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function viewHoursCompany(Request $request)
+    {
+        $data = $this->validate($request, [
+            'idUser' => ['required', 'integer'],
+        ]);
+
+        $data = $request->all();
+        $idUser = $data['idUser'];
+
+        $daysHasUsersDAO = new DaysHasUsersDAO();
+
+        $hoursCompany = $daysHasUsersDAO->viewHoursCompany($idUser);
+
+        if(empty($hoursCompany)) return ReturnMessage::messageReturn(true,'Usuário não tem horas',null,null, $hoursCompany);
+
+        return ReturnMessage::messageReturn(false,null,null,null, $hoursCompany);
     }
 }

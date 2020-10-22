@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Route;
 
         Route::prefix('hours')->group(function () {
             Route::post('/hours-administrator', 'Api\CreateController@createDaysToWork');
+            Route::get('/list/hours-administrator', 'Api\ViewController@viewHoursCompany');
         });
     });
 // });

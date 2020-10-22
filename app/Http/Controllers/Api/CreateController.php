@@ -195,6 +195,7 @@ class CreateController extends Controller
 
         $days = $data['daysWorks'];
 
+        DB::beginTransaction();
         foreach($days as $key=>$day){
             $idDay = $day['idDay'];
             $dayActive = $day['active'];
@@ -224,8 +225,10 @@ class CreateController extends Controller
                 'opening_hours_id_opening_hour' => $idOpenHours,
             ];
 
-            $queryDaysHours = $daysHasUsersDAO->createDaysWeeksHasUsers($dayDados);
+            $daysHasUsersDAO->createDaysWeeksHasUsers($dayDados);
         }
+        DB::commit();
+        return ReturnMessage::messageReturn(false,'Registro de horas feito com sucesso',null,null, null);
     }
 
 }
