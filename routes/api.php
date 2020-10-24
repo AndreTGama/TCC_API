@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('/', 'Api\LoginController@loginUser');
     });
 
-    Route::prefix('user')->group(function () {
+    //Route::prefix('user')->group(function () {
         Route::post('/create-user', 'Api\CreateController@createUser');
         Route::post('/forgot-password', 'Api\LoginController@forgotPassword');
         Route::post('/verify-code', 'Api\LoginController@verifyCode');
@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Route;
         });
         Route::prefix('comunicated')->group(function () {
             Route::post('/create-newcomunicated', 'Api\CreateController@createdComunicated');
+            Route::get('/view-comunicated', 'Api\ViewController@viewComunicated');
+            Route::get('/list-comunicated', 'Api\ViewController@listComunicatedReceived');
         });
     });
- });
+ //});
