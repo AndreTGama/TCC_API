@@ -12,6 +12,7 @@ class days_weeks_has_users extends Model
         'users_id_user',
         'days_weeks_id_days_week',
         'opening_hours_id_opening_hour',
+        'active'
     ];
     protected $guarded = [
         'id_days_weeks_has_users',

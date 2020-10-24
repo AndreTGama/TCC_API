@@ -3,23 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
-use App\DAO\AddressesDAO;
-use App\DAO\ContactsDAO;
 use App\DAO\DaysHasUsersDAO;
-use App\DAO\DocumentsDAO;
 use App\DAO\OpenHoursDAO;
-use App\DAO\UsersDAO;
-use App\DAO\VerifyCodeDAO;
 use App\DATA\Token;
 use App\Http\Controllers\Controller;
-use App\Mail\EmailServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
-class CreateController extends Controller
+class CreateDaysUserController extends Controller
 {
-    /**
+        /**
      * createDaysToWork
      *
      * @param  mixed $request
@@ -119,5 +112,4 @@ class CreateController extends Controller
         DB::commit();
         return ReturnMessage::messageReturn(false,'Registro de horas feito com sucesso',null,null, null);
     }
-
 }

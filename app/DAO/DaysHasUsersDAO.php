@@ -18,7 +18,13 @@ class DaysHasUsersDAO
         $queryDays = days_weeks_has_users::create($data);
         return $queryDays;
     }
-    public function consultDaysWeeksHasUsers(array $filter) : object
+    /**
+     * consultDaysWeeksHasUsers
+     *
+     * @param  array $filter
+     * @return object
+     */
+    public function consultDaysWeeksHasUsers(array $filter) : array
     {
         $queryHoursCompany = DB::table('days_weeks_has_users')
                 ->join('users', 'users.id_user', 'days_weeks_has_users.users_id_user')
@@ -32,6 +38,8 @@ class DaysHasUsersDAO
         if(isset($filter['idUser'])) $queryHoursCompany = $queryHoursCompany->where('users.id_user', $filter['idUser']);
         if(isset($filter['idHours'])) $queryHoursCompany = $queryHoursCompany->where('opening_hours.id_opening_hour', $filter['idHours']);
         if(isset($filter['idDays'])) $queryHoursCompany = $queryHoursCompany->where('days_weeks.id_days_week', $filter['idDays']);
+
+        $queryHoursCompany = $queryHoursCompany->get()->toArray();
 
         return $queryHoursCompany;
     }
@@ -54,5 +62,18 @@ class DaysHasUsersDAO
                             'opening_hours.lunch_time_in')
                             ->get()->toArray();
         return $queryHoursCompany;
+    }
+    /**
+     * updateDaysHoursCompany
+     *
+     * @param  int $idDayUser
+     * @param  array $data
+     * @return int
+     */
+    public function updateDaysHoursCompany(int $idDayUser, array $data) : int
+    {
+        $queryDays = days_weeks_has_users::where('days_weeks_has_users.id_days_weeks_has_users', $idDayUser)
+                    ->update($data);
+        return $queryDays;
     }
 }

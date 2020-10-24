@@ -24,10 +24,10 @@ class OpenHoursDAO
      * @param  mixed $dados
      * @return object
      */
-    public function verifyHours(array $dados) : object
+    public function verifyHours(array $dados) : ?object
     {
         $queryHours = DB::table('opening_hours')
-                        ->where($dados);
+                        ->where($dados)->get()->first();
         return $queryHours;
     }
 }

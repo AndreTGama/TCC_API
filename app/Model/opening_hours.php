@@ -12,8 +12,8 @@ class opening_hours extends Model
         'open',
         'close',
         'lunch_time_out',
-        'lunch_time_in time'
+        'lunch_time_in'
     ];
-    
+
     protected $cast = ['id_opening_hour'];
 }
