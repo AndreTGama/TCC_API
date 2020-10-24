@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route::group(['middleware' => ['error.handler']], function () {
+    // Route::group(['middleware' => ['error.handler']], function () {
     Route::get('send-email', 'Api\MailController@sendEmail');
     Route::prefix('login')->group(function () {
         Route::post('/', 'Api\LoginController@loginUser');
@@ -46,5 +46,11 @@ use Illuminate\Support\Facades\Route;
             Route::post('/create-services', 'Api\CreateServicesController@createServices');
             Route::post('/update-services', 'Api\UpdateServicesController@updateServices');
         });
+
+        Route::prefix('communicated')->group(function () {
+            Route::post('/create-newcomunicated', 'Api\CreateCommunicatedController@createdComunicated');
+            Route::get('/view-comunicated', 'Api\ViewCommunicatedController@viewComunicated');
+            Route::get('/list-comunicated', 'Api\ViewCommunicatedController@listComunicatedReceived');
+        });
     });
-// });
+ //});

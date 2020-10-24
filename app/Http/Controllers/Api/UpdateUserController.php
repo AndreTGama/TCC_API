@@ -137,4 +137,5 @@ class UpdateUserController extends Controller
         if(empty($queryContactsUser)) $contacsDAO->updateContact($idUser ,$dadosContacts);
 
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
-    }}
+    }
+}

@@ -147,6 +147,12 @@ class LoginController extends Controller
         return ReturnMessage::messageReturn(false,'Código de verficação enviado para o e-mail',null,null, null);
 
     }
+    /**
+     * VerifyCode
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function VerifyCode(Request $request)
     {
         $data = $this->validate($request, [
@@ -163,7 +169,12 @@ class LoginController extends Controller
         $idUser = $queryCode->users_id_user;
         return ReturnMessage::messageReturn(false,'Código digitado é válido',null,null,$idUser);
     }
-
+    /**
+     * ChangePassword
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function ChangePassword(Request $request)
     {
 
@@ -183,5 +194,4 @@ class LoginController extends Controller
         $usersDao->updateUser($idUser,$dados);
         return ReturnMessage::messageReturn(false,'Senha alterada com sucesso',null,null,null);
     }
-
 }

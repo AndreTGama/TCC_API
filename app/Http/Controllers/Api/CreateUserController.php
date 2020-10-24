@@ -165,4 +165,5 @@ class CreateUserController extends Controller
 
         DB::commit();
         return ReturnMessage::messageReturn(false,'Cadastro Feito com Sucesso',null,null, null);
-    }}
+    }
+}
