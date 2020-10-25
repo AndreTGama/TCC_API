@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FunctionSeeder::class);
         $this->call(FunctionHasUsersSeeder::class);
         $this->call(DaysWeekSeeder::class);
-
+        $this->call(TypeServiceSeeder::class);
     }
 }

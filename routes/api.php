@@ -52,5 +52,9 @@ use Illuminate\Support\Facades\Route;
             Route::get('/view-comunicated', 'Api\ViewCommunicatedController@viewComunicated');
             Route::get('/list-comunicated', 'Api\ViewCommunicatedController@listComunicatedReceived');
         });
+
+        Route::prefix('calendar')->group(function () {
+            Route::post('/create', 'Api\CreateCommunicatedController@createdComunicated');
+        });
     });
  //});

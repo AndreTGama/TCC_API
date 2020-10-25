@@ -15,7 +15,7 @@ class CreateTypesServicesTable extends Migration
     {
         Schema::create('types_services', function (Blueprint $table) {
             $table->bigIncrements('id_type_service');
-            $table->string('type_service', 25);
+            $table->string('type_service', 255);
             $table->longText('description');
             $table->boolean('active')->default(1);
             $table->timestamps();
