@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\Route;
             Route::post('/create-newcomunicated', 'Api\CreateCommunicatedController@createdComunicated');
             Route::get('/view-comunicated', 'Api\ViewCommunicatedController@viewComunicated');
             Route::get('/list-comunicated', 'Api\ViewCommunicatedController@listComunicatedReceived');
+            Route::post('/response-comunicated', 'Api\CreateCommunicatedController@responseComunicated');
         });
     });
  //});

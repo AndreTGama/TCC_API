@@ -40,7 +40,10 @@ class ViewCommunicatedController extends Controller
         $idUserHasComunicated = $data['idUsersHasComunicated'];
         $usersHasComunicatedsDAO = new UsersHasComunicatedsDAO();
         $viewComunicated = $usersHasComunicatedsDAO->viewUsersComunicated($idUserHasComunicated);
-        if($viewComunicated) return ReturnMessage::messageReturn(false,null,null,null, $viewComunicated);;
+        if($viewComunicated){
+            $usersHasComunicatedsDAO->updateUsersHasComunicated($idUserHasComunicated,['view'=>true]);
+            return ReturnMessage::messageReturn(false,null,null,null, $viewComunicated);
+        }
         return ReturnMessage::messageReturn(true,'Comunicado não existe',null,null,null);
     }
 }

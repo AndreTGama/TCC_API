@@ -38,5 +38,9 @@ class UsersHasComunicatedsDAO
                                                 ->select('users.id_user','users.name_user','comunicateds.*','users_has_comunicateds.id_users_has_comunicateds')->get()->first();
         return $queryView_Users_has_comunicated;
     }
-
+    public function updateUsersHasComunicated(int $idComunicated,array $dados) : ?int
+    {
+        $queryidUsers_has_comunicated = users_has_comunicateds::where('id_users_has_comunicateds',$idComunicated)->update($dados);
+        return $queryidUsers_has_comunicated;
+    }
 }

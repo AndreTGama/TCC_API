@@ -49,4 +49,38 @@ class CreateCommunicatedController extends Controller
         DB::commit();
         return ReturnMessage::messageReturn(false,'Mensagem foi enviada',null,null, null);
     }
+    public function responseComunicated(Request $request)
+    {
+        $idUser = Token::getTokenDecode()->sub;
+        $data = $this->validate($request, [
+            'comunicated'=> ['required'],
+            'toIdUser'=>['required','integer'],
+            'id_comunicated'=>['required','integer']
+        ]);
+        $data = $request->all();
+        $reponseComunicated = $data['comunicated'];
+        $toIdUser = $data['toIdUser'];
+        $comunicatedDAO = new ComunicatedDAO();
+        $dados = ['comunicated' => $reponseComunicated,'users_id_user'=> $idUser];
+
+        DB::beginTransaction();
+
+        $queryComunicated = $comunicatedDAO->createComunicated($dados);
+        if(!isset($queryComunicated->id)) {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Mensagem não foi enviada',null,null, null);
+        }
+        $usersHasComunicatedsDAO = new UsersHasComunicatedsDAO();
+        $idComunicated = $queryComunicated->id;
+        $idUserHasComunicated = $data['id_comunicated'];
+        $dados =['users_id_user' => $toIdUser, 'comunicateds_id_comunicated'=> $idComunicated,'users_has_comunicateds_id' => $idUserHasComunicated];
+        $comunicatedHasUser = $usersHasComunicatedsDAO->createUsersComunicated($dados);
+        if(!isset($comunicatedHasUser->id)) {
+            DB::rollBack();
+            return ReturnMessage::messageReturn(true,'Mensagem não foi enviada',null,null, null);
+        }
+        DB::commit();
+        return ReturnMessage::messageReturn(false,'Mensagem foi enviada',null,null, null);
+
+    }
 }

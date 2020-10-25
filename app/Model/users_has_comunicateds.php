@@ -8,7 +8,8 @@ class users_has_comunicateds extends Model
 {
     protected $fillable = [
         'users_id_user',
-        'comunicateds_id_comunicated'
+        'comunicateds_id_comunicated',
+        'users_has_comunicateds_id'
 
 
     ];
