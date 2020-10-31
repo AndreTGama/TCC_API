@@ -33,6 +33,7 @@ class CreateServicesController extends Controller
             'time' => ['required'],
             'service' => ['required'],
             'description' => ['required'],
+            'types_services_id_type_service' => ['required', 'integer']
         ]);
 
         DB::beginTransaction();

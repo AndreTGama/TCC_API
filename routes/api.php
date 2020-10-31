@@ -38,11 +38,15 @@ use Illuminate\Support\Facades\Route;
         });
 
         Route::prefix('hours')->group(function () {
-            Route::post('/hours-administrator', 'Api\CreateController@createDaysToWork');
-            Route::get('/list/hours-administrator', 'Api\ViewController@viewHoursCompany');
+            Route::post('/hours-administrator', 'Api\CreateDaysUserController@createDaysToWork');
+            Route::get('/list/hours-administrator', 'Api\ViewDaysHasUsersController@viewHoursCompany');
         });
 
         Route::prefix('services')->group(function () {
+            Route::post('/company/list-services', 'Api\ViewServicesController@listServicesCompany');
+            Route::post('/company/delete-service', 'Api\UpdateServicesController@deleteServices');
+            Route::post('/client/list-services', 'Api\ViewServicesController@listServicesClient');
+            Route::get('/view-services', 'Api\ViewServicesController@viewServiceById');
             Route::post('/create-services', 'Api\CreateServicesController@createServices');
             Route::post('/update-services', 'Api\UpdateServicesController@updateServices');
         });
@@ -54,7 +58,7 @@ use Illuminate\Support\Facades\Route;
         });
 
         Route::prefix('calendar')->group(function () {
-            Route::post('/create', 'Api\CreateCommunicatedController@createdComunicated');
+            Route::post('/create', 'Api\CreateCommunicatedController@createCalendar');
         });
     });
  //});

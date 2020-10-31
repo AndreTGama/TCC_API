@@ -59,4 +59,31 @@ class UpdateServicesController extends Controller
         DB::rollBack();
         return ReturnMessage::messageReturn(true,'Serviço não foi encontrado',null,null, null);
     }
+    /**
+     * deleteServices
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function deleteServices(Request $request)
+    {
+        $servicesDAO = new ServicesDAO();
+
+        $data = $this->validate($request, [
+            'idService' => ['required', 'integer'],
+        ]);
+
+        $data = $request->all();
+        $idService = $data['idService'];
+
+        $querySevices = $servicesDAO->consultServices(['id_services_company' => $idService]);
+
+        if($querySevices){
+            $querySevices = $servicesDAO->updateServices($idService, ['active' => false]);
+            DB::commit();
+            return ReturnMessage::messageReturn(true,'Serviço desativado',null,null, null);
+        }
+        DB::rollBack();
+        return ReturnMessage::messageReturn(true,'Serviço não foi encontrado',null,null, null);
+    }
 }

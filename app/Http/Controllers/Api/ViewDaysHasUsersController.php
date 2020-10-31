@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
 use App\DAO\DaysHasUsersDAO;
-use App\DAO\UsersDAO;
-use App\DAO\UsersHasComunicatedsDAO;
-use App\DATA\Token;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ViewController extends Controller
+class ViewDaysHasUsersController extends Controller
 {
      /**
      * viewHoursCompany
@@ -35,5 +32,5 @@ class ViewController extends Controller
 
         return ReturnMessage::messageReturn(false,null,null,null, $hoursCompany);
     }
-    
+
 }

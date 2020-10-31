@@ -51,4 +51,83 @@ class ServicesDAO
         $queryService = services_company::where('id_services_company', $idService)->update($data);
         return $queryService;
     }
+    /**
+     * listOfServiceOfferedByCompany
+     *
+     * @param  array $filter
+     * @return array
+     */
+    public function listOfServiceOfferedByCompany(array $filter) : array
+    {
+        $queryListServices = DB::table('services_companies')
+                ->join('types_services', 'types_services.id_type_service', 'services_companies.types_services_id_type_service')
+                ->join('users', 'users.id_user', 'services_companies.users_id_user')
+                ->select('users.name_user','users.id_user', 'users.e-mail', 'services_companies.id_services_company',
+                'services_companies.service', 'services_companies.description', 'services_companies.time',
+                'services_companies.price', 'types_services.id_type_service', 'types_services.type_service',
+                'types_services.description')
+                ->where('services_companies.active', '=', true)
+                ->where('types_services.active', '=', true)
+                ->where('users.active', '=', true);
+
+        if(isset($filter['price'])) $queryListServices = $queryListServices->where('services_companies.price', '=', $filter['price']);
+        if(isset($filter['time'])) $queryListServices = $queryListServices->where('services_companies.time', '=', $filter['time']);
+        if(isset($filter['service'])) $queryListServices = $queryListServices->where('services_companies.service', '=', $filter['service']);
+        if(isset($filter['types_services_id_type_service'])) $queryListServices = $queryListServices->where('types_services.id_type_service', '=', $filter['types_services_id_type_service']);
+        if(isset($filter['usersId'])) $queryListServices = $queryListServices->where('users.id_user', '=', $filter['usersId']);
+
+        $queryListServices = $queryListServices->get()->toArray();
+
+        return $queryListServices;
+    }
+    /**
+     * listOfServiceOfferedToCustomers
+     *
+     * @param  array $filter
+     * @return array
+     */
+    public function listOfServiceOfferedToCustomers(array $filter) : array
+    {
+        $queryListServices = DB::table('services_companies')
+                ->join('types_services', 'types_services.id_type_service', 'services_companies.types_services_id_type_service')
+                ->join('users', 'users.id_user', 'services_companies.users_id_user')
+                ->select('users.name_user','users.id_user', 'users.e-mail', 'services_companies.id_services_company',
+                'services_companies.service', 'services_companies.description', 'services_companies.time',
+                'services_companies.price', 'types_services.id_type_service', 'types_services.type_service',
+                'types_services.description')
+                ->where('services_companies.active', '=', true)
+                ->where('types_services.active', '=', true)
+                ->where('users.active', '=', true);
+
+        if(isset($filter['price'])) $queryListServices = $queryListServices->where('services_companies.price', '=', $filter['price']);
+        if(isset($filter['time'])) $queryListServices = $queryListServices->where('services_companies.time', '=', $filter['time']);
+        if(isset($filter['service'])) $queryListServices = $queryListServices->where('services_companies.service', '=', $filter['service']);
+        if(isset($filter['types_services_id_type_service'])) $queryListServices = $queryListServices->where('types_services.id_type_service', '=', $filter['types_services_id_type_service']);
+        if(isset($filter['users_id_user'])) $queryListServices = $queryListServices->where('users.id_user', '=', $filter['users_id_user']);
+
+        $queryListServices = $queryListServices->get()->toArray();
+
+        return $queryListServices;
+    }
+    /**
+     * viewServiceById
+     *
+     * @param  int $idService
+     * @return object
+     */
+    public function viewServiceById(int $idService) : ?object
+    {
+        $queryListServices = DB::table('services_companies')
+                ->join('types_services', 'types_services.id_type_service', 'services_companies.types_services_id_type_service')
+                ->join('users', 'users.id_user', 'services_companies.users_id_user')
+                ->select('users.name_user', 'users.id_user', 'users.e-mail', 'services_companies.id_services_company',
+                'services_companies.service', 'services_companies.description', 'services_companies.time',
+                'services_companies.price', 'types_services.id_type_service', 'types_services.type_service',
+                'types_services.description')
+                ->where('services_companies.id_services_company', '=', $idService)
+                ->where('services_companies.active', '=', true)->get()->first();
+
+        return $queryListServices;
+
+    }
 }

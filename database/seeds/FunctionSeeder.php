@@ -122,7 +122,7 @@ class FunctionSeeder extends Seeder
 				'updated_at' => now(),
             ],
             [
-                'function'=> 'Atualizar Horários',
+                'function'=> 'Deletar Horários',
                 'functions_id_function' => 3,
 				'created_at' => now(),
 				'updated_at' => now(),
@@ -142,6 +142,48 @@ class FunctionSeeder extends Seeder
             [
                 'function'=> 'Cadastro de Horários de Funcionamento',
                 'functions_id_function' => 1,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Atualização de Horários de Funcionamento',
+                'functions_id_function' => 2,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Deletar de Horários de Funcionamento',
+                'functions_id_function' => 3,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Listar de Horários de Funcionamento',
+                'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Criar Comunicado',
+                'functions_id_function' => 1,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Deletar Comunicado',
+                'functions_id_function' => 3,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Ver Comunicado',
+                'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Listar Comunicados',
+                'functions_id_function' => 4,
 				'created_at' => now(),
 				'updated_at' => now(),
             ],

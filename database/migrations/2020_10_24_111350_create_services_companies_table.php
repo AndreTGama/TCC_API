@@ -18,7 +18,7 @@ class CreateServicesCompaniesTable extends Migration
             $table->string('service', 25);
             $table->longText('description');
             $table->time('time');
-            $table->decimal('price', 15, 3);
+            $table->decimal('price', 15, 2);
             $table->bigInteger('users_id_user')->unsigned()->index();
             $table->foreign('users_id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->bigInteger('types_services_id_type_service')->unsigned()->index();
