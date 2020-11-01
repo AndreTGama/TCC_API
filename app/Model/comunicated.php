@@ -14,7 +14,10 @@ class comunicated extends Model
         'users_id_user',
 
     ];
-    protected $cast =[
-        'id_comunicated'
+
+    protected $guarded = [
+        'id_comunicated',
+        'created_at',
+        'updated_at',
     ];
 }

@@ -15,4 +15,10 @@ class contacts extends Model
         'cel_number',
         'users_id_user',
     ];
+
+    protected $guarded = [
+        'id_contact',
+        'created_at',
+        'updated_at',
+    ];
 }

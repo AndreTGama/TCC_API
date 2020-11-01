@@ -17,4 +17,10 @@ class addresses extends Model
         'state',
         'country'
     ];
+
+    protected $guarded = [
+        'id_address',
+        'created_at',
+        'updated_at',
+    ];
 }

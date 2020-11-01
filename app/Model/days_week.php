@@ -11,4 +11,10 @@ class days_week extends Model
     protected $fillable = [
         'days'
     ];
+
+    protected $guarded = [
+        'id_days_week',
+        'created_at',
+        'updated_at',
+    ];
 }

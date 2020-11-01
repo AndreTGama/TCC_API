@@ -12,5 +12,9 @@ class type_users extends Model
         'type_user',
     ];
 
-    protected $cast = 'id_type_user';
+    protected $guarded = [
+        'id_type_user',
+        'created_at',
+        'updated_at',
+    ];
 }

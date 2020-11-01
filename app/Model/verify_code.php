@@ -11,5 +11,11 @@ class verify_code extends Model
     protected $fillable = [
 		'code','users_id_user'
     ];
+
+    protected $guarded = [
+        'id_verify_code',
+        'created_at',
+        'updated_at',
+    ];
 }
 

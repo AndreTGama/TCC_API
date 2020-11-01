@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Route;
         Route::post('/change-password', 'Api\LoginController@changePassword');
     });
 
+    Route::prefix('selects')->group(function (){
+        Route::get('/type-services', 'Api\TablesController@listTypeServices');
+        Route::get('/days-weeks', 'Api\TablesController@listDaysWeeks');
+        Route::get('/list-company', 'Api\TablesController@listCompanys');
+        Route::get('/list-clients', 'Api\TablesController@listClients');
+    });
+
     Route::group(['middleware' => ['auth.jwt']], function () {
 
         Route::get('/logout', 'Api\LoginController@logoutUser');
@@ -58,7 +65,10 @@ use Illuminate\Support\Facades\Route;
         });
 
         Route::prefix('calendar')->group(function () {
-            Route::post('/create', 'Api\CreateCommunicatedController@createCalendar');
+            Route::post('/create', 'Api\CreateCalendarController@createCalendar');
+            Route::get('/company/list-calendar', 'Api\ViewCalendarController@listCalendarCompany');
+            Route::get('/client/list-calendar', 'Api\ViewCalendarController@listCalendarClient');
+
         });
     });
  //});

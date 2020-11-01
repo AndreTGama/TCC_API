@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class calendar extends Model
 {
-    protected $cast = [
-        'id_calendar'
+    protected $table = 'calendars';
+
+    protected $guarded = [
+        'id_calendar',
+        'created_at',
+        'updated_at',
     ];
 
     protected $fillable = [
@@ -17,7 +21,4 @@ class calendar extends Model
         'users_id_user',
         'services_companies_id_services_company',
     ];
-
-    protected $table = 'calendars';
-
 }

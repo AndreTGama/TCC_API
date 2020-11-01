@@ -15,5 +15,9 @@ class opening_hours extends Model
         'lunch_time_in'
     ];
 
-    protected $cast = ['id_opening_hour'];
+    protected $guarded = [
+        'id_opening_hour',
+        'created_at',
+        'updated_at',
+    ];
 }

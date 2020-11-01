@@ -18,6 +18,7 @@ class CreateCalendarsTable extends Migration
             $table->date('day_commitment');
             $table->time('hour_commitment');
             $table->longText('note');
+            $table->boolean('concluded')->default(0);
             $table->bigInteger('users_id_user')->unsigned()->index();
             $table->foreign('users_id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->bigInteger('services_companies_id_services_company')->unsigned()->index();

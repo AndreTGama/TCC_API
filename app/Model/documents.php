@@ -12,4 +12,10 @@ class documents extends Model
        'cpf',
        'cnpj'
     ];
+
+    protected $guarded = [
+        'id_document',
+        'created_at',
+        'updated_at',
+    ];
 }

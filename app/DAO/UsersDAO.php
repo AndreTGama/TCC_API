@@ -86,7 +86,7 @@ class UsersDAO
      * @param  int $typeUser
      * @return object
      */
-    public function listUsersInSystemForType(int $typeUser = null) : ?object
+    public function listUsersInSystemForType(?int $typeUser) : ?object
     {
         $queryListUser = DB::table('users')
                         ->join('type_users', 'type_users.id_type_user', 'users.type_users_id_type_user')

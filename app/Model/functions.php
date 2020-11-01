@@ -11,4 +11,10 @@ class functions extends Model
     protected $fillable = [
        'function','functions_id_function'
     ];
+
+    protected $guarded = [
+        'id_function',
+        'created_at',
+        'updated_at',
+    ];
 }

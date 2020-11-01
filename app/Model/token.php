@@ -18,4 +18,5 @@ class token extends Model
         'id_token',
         'created_at',
         'updated_at',
-    ];}
+    ];
+}

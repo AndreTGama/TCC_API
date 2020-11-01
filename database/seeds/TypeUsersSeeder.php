@@ -19,7 +19,7 @@ class TypeUsersSeeder extends Seeder
 				'updated_at' => now(),
 			],
 			[
-				'type_user'=> 'ADMINISTRAÇÃO',
+				'type_user'=> 'COMPANHIA',
 				'created_at' => now(),
 				'updated_at' => now(),
             ],

@@ -25,4 +25,10 @@ class users extends Model
         'birth_date' => 'date:Y-m-d',
     ];
 
+    protected $guarded = [
+        'id_user',
+        'created_at',
+        'updated_at',
+    ];
+
 }
