@@ -140,6 +140,18 @@ class FunctionSeeder extends Seeder
 				'updated_at' => now(),
             ],
             [
+                'function'=> 'Dash da Companhia',
+                'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Dash do Cliente',
+                'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
                 'function'=> 'Cadastro de Horários de Funcionamento',
                 'functions_id_function' => 1,
 				'created_at' => now(),
@@ -183,6 +195,30 @@ class FunctionSeeder extends Seeder
             ],
             [
                 'function'=> 'Listar Comunicados',
+                'functions_id_function' => 4,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Cadastrar na Agenta',
+                'functions_id_function' => 1,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Atualizar Agenta',
+                'functions_id_function' => 2,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Deletar Agenta',
+                'functions_id_function' => 3,
+				'created_at' => now(),
+				'updated_at' => now(),
+            ],
+            [
+                'function'=> 'Ver Agenta',
                 'functions_id_function' => 4,
 				'created_at' => now(),
 				'updated_at' => now(),
