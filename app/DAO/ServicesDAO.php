@@ -91,7 +91,7 @@ class ServicesDAO
         $queryListServices = DB::table('services_companies')
                 ->join('types_services', 'types_services.id_type_service', 'services_companies.types_services_id_type_service')
                 ->join('users', 'users.id_user', 'services_companies.users_id_user')
-                ->select('users.name_user','users.id_user', 'users.e-mail', 'services_companies.id_services_company',
+                ->select('users.name_user','users.id_user', 'users.e-mail as email', 'services_companies.id_services_company',
                 'services_companies.service', 'services_companies.description', 'services_companies.time',
                 'services_companies.price', 'types_services.id_type_service', 'types_services.type_service',
                 'types_services.description')
