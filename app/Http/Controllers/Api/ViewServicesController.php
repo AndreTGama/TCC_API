@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
+use App\DAO\ContactsDAO;
 use App\DAO\ServicesDAO;
 use App\DATA\Token;
 use App\Http\Controllers\Controller;
@@ -45,6 +46,15 @@ class ViewServicesController extends Controller
         $listServices = $servicesDAO->listOfServiceOfferedToCustomers($data);
 
         if(empty($listServices)) return ReturnMessage::messageReturn(true,'Não há datas para serem marcadas.',null,null, null);
+
+        $contactsDAO = new ContactsDAO();
+
+        foreach($listServices as $key=>$service) {
+            $idCompany = $service->id_user;
+            $listContact = $contactsDAO->listContactUser($idCompany);
+            $listServices[$key]->contacts = $listContact;
+        }
+
         return ReturnMessage::messageReturn(false,null,null,null, $listServices);
 
     }
