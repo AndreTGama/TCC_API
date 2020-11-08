@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Builder\ReturnMessage;
+use App\DAO\ContactsDAO;
 use App\DAO\UsersDAO;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -67,11 +68,16 @@ class ViewUserController extends Controller
         $idUser = $data['idUser'];
 
         $usersDao = new UsersDAO();
+        $contactDAO = new ContactsDAO();
 
         $infoUser = $usersDao->infoUser($idUser);
 
-        if($infoUser) return ReturnMessage::messageReturn(false,null,null,null, $infoUser);
+        if(!$infoUser) return ReturnMessage::messageReturn(false,null,null,null, null);
 
-        return ReturnMessage::messageReturn(false,null,null,null, null);
+        $listContact = $contactDAO->listContactUser($idUser);
+
+        $infoUser->contacts = $listContact;
+
+        return ReturnMessage::messageReturn(false,null,null,null, $infoUser);
     }
 }

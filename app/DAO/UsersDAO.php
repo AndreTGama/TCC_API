@@ -117,7 +117,7 @@ class UsersDAO
                         'documents.cpf','documents.id_document', 'documents.cnpj', 'addresses.id_address',
                         'addresses.postcode', 'addresses.street', 'addresses.number', 'addresses.district',
                         'addresses.city', 'addresses.state', 'addresses.country',
-                        'type_users.id_type_user', 'type_users.type_user')->get();
+                        'type_users.id_type_user', 'type_users.type_user')->get()->first();
 
         return $queryInfoUser;
     }
