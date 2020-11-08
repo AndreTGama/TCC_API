@@ -112,7 +112,7 @@ class UsersDAO
                         ->join('type_users', 'type_users.id_type_user', 'users.type_users_id_type_user')
                         ->where('users.active', '=', true)
                         ->where('users.id_user', '=', $idUser)
-                        ->select('users.id_user', 'users.login', 'users.e-mail',
+                        ->select('users.id_user', 'users.login', 'users.e-mail as email','users.name_user',
                         DB::raw('DATE_FORMAT(users.birth_date, "%d-%m-%Y") as birth_date'),
                         'documents.cpf','documents.id_document', 'documents.cnpj', 'addresses.id_address',
                         'addresses.postcode', 'addresses.street', 'addresses.number', 'addresses.district',
