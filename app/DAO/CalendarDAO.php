@@ -49,12 +49,11 @@ class CalendarDAO
                             ->join('users', 'users.id_user', 'services_companies.users_id_user')
                             ->join('types_services', 'types_services.id_type_service', 'services_companies.types_services_id_type_service')
                             ->join('addresses', 'addresses.id_address', 'users.addresses_id_address')
-                            ->join('contacts', 'contacts.users_id_user', 'users.id_user')
                             ->where('calendars.active', '=', true)
                             ->where('services_companies.active', '=', true)
                             ->where('calendars.users_id_user', '=', $idUser)
                             ->select('calendars.id_calendar', 'calendars.day_commitment', 'calendars.hour_commitment', 'calendars.note','services_companies.id_services_company','services_companies.service', 'services_companies.description','services_companies.time', 'services_companies.price', 'users.id_user', 'users.name_user', 'users.e-mail', 'addresses.id_address',
-                            'addresses.postcode', 'addresses.street', 'addresses.number', 'addresses.district', 'addresses.city', 'addresses.state', 'addresses.country', 'contacts.id_contact','contacts.ddd_tel','contacts.ddd_cel', 'contacts.tel_number', 'contacts.cel_number')
+                            'addresses.postcode', 'addresses.street', 'addresses.number', 'addresses.district', 'addresses.city', 'addresses.state', 'addresses.country')
                             ->get()->toArray();
 
         return $queryListCalendar;
@@ -71,9 +70,8 @@ class CalendarDAO
                             ->join('users', 'users.id_user', 'services_companies.users_id_user')
                             ->join('calendars', 'calendars.services_companies_id_services_company', 'services_companies.id_services_company')
                             ->join('users as clients', 'clients.id_user', 'calendars.users_id_user')
-                            ->join('contacts', 'contacts.users_id_user', 'clients.id_user')
                             ->where('users.id_user', '=', $idUser)
-                            ->select('calendars.id_calendar', 'calendars.day_commitment', 'calendars.hour_commitment', 'calendars.note','services_companies.id_services_company','services_companies.service', 'services_companies.description','services_companies.time', 'services_companies.price', 'users.id_user', 'clients.name_user', 'clients.e-mail','contacts.id_contact','contacts.ddd_tel','contacts.ddd_cel', 'contacts.tel_number', 'contacts.cel_number')
+                            ->select('calendars.id_calendar', 'calendars.day_commitment', 'calendars.hour_commitment', 'calendars.note','services_companies.id_services_company','services_companies.service', 'services_companies.description','services_companies.time', 'services_companies.price', 'users.id_user', 'clients.name_user', 'clients.e-mail')
                             ->get()->toArray();
 
         return $queryListCalendar;
